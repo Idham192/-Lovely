@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You Babe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fbc2eb 50%, #a6c1ee 75%, #fbc2eb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: floatParticle 20s infinite;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 25px;
+            animation: float 20s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 182, 193, 0.8));
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .main-title {
+            position: relative;
+            z-index: 2;
+            font-size: 4.5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6ec4, #7873f5, #ff6ec4);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientText 3s ease infinite, titleFloat 3s ease-in-out infinite;
+            text-shadow: 0 5px 30px rgba(255, 110, 196, 0.5);
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        @keyframes gradientText {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes titleFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .sphere-container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            perspective: 1500px;
+            z-index: 2;
+            filter: drop-shadow(0 20px 50px rgba(255, 110, 196, 0.3));
+        }
+
+        .sphere {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: rotateSphere 35s infinite linear;
+        }
+
+        @keyframes rotateSphere {
+            from {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            to {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        .sphere:hover {
+            animation-play-state: paused;
+        }
+
+        .photo-item {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            left: 50%;
+            top: 50%;
+            margin-left: -75px;
+            margin-top: -75px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 15px 40px rgba(255, 110, 196, 0.4);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            backdrop-filter: blur(15px);
+            border: 4px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+
+        .photo-item::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(135deg, #ff6ec4, #7873f5, #ff9a9e);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .photo-item:hover::before {
+            opacity: 1;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.4) !important;
+            z-index: 10;
+            box-shadow: 0 25px 60px rgba(255, 110, 196, 0.6);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe5f4 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .love-message {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            padding: 40px 60px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 1.4em;
+            line-height: 2;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            margin-top: 40px;
+            max-width: 650px;
+            text-align: center;
+            animation: fadeInScale 1.5s ease-out 1s both;
+            box-shadow: 0 20px 60px rgba(255, 110, 196, 0.3);
+            text-shadow: 0 2px 10px rgba(120, 115, 245, 0.3);
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .instructions {
+            position: relative;
+            z-index: 2;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1em;
+            margin-top: 20px;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(120, 115, 245, 0.5);
+            animation: fadeIn 2s ease-out 2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Glowing orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+            animation: orbFloat 20s infinite ease-in-out;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(100px, -100px) scale(1.2);
+            }
+            66% {
+                transform: translate(-100px, 100px) scale(0.8);
+            }
+        }
+
+        .orb1 {
+            width: 300px;
+            height: 300px;
+            background: #ff6ec4;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 400px;
+            height: 400px;
+            background: #7873f5;
+            bottom: 10%;
+            right: 10%;
+            animation-delay: -7s;
+        }
+
+        .orb3 {
+            width: 250px;
+            height: 250px;
+            background: #fbc2eb;
+            top: 50%;
+            right: 20%;
+            animation-delay: -14s;
+        }
+
+        @media (max-width: 768px) {
+            .sphere-container {
+                width: 400px;
+                height: 400px;
+            }
+            .main-title {
+                font-size: 2.8em;
+            }
+            .photo-item {
+                width: 110px;
+                height: 110px;
+                margin-left: -55px;
+                margin-top: -55px;
+            }
+            .love-message {
+                font-size: 1.1em;
+                padding: 30px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    
+    <div class="particles" id="particlesContainer"></div>
+    <div class="hearts-bg" id="heartsContainer"></div>
+    
+    <h1 class="main-title">I Love You Sayang Nor Jannahtul ❤️</h1>
+    
+    <div class="sphere-container">
+        <div class="sphere" id="sphere"></div>
+    </div>
+
+    <div class="love-message">
+        You are the sunshine in my day and the stars in my night. 
+        Every moment with you is a treasure I hold close to my heart. 
+        I love you more than words can express. 💕
+    </div>
+
+    <div class="instructions">
+        ✨ Hover over the sphere to pause • Click photos to enlarge ✨
+    </div>
+
+    <script>
+        // Create 20 photos arranged in a sphere
+        const sphere = document.getElementById('sphere');
+        const numPhotos = 20;
+        const radius = 280;
+
+        // Your photos stored locally - just add them to the 'photos' folder!
+        const photoData = [
+            'photos/photo1.jpg',
+            'photos/photo2.jpg',
+            'photos/photo3.jpg',
+            'photos/photo4.jpg',
+            'photos/photo5.jpg',
+            'photos/photo6.jpg',
+            'photos/photo7.jpg',
+            'photos/photo8.jpg',
+            'photos/photo9.jpg',
+            'photos/photo10.jpg',
+            'photos/photo11.jpg',
+            'photos/photo12.jpg',
+            'photos/photo13.jpg',
+            'photos/photo14.jpg',
+            'photos/photo15.jpg',
+            'photos/photo16.jpg',
+            'photos/photo17.jpg',
+            'photos/photo18.jpg',
+            'photos/photo19.jpg',
+            'photos/photo20.jpg'
+        ];
+
+        for (let i = 0; i < numPhotos; i++) {
+            const photo = document.createElement('div');
+            photo.className = 'photo-item';
+            
+            // Calculate spherical coordinates
+            const phi = Math.acos(-1 + (2 * i) / numPhotos);
+            const theta = Math.sqrt(numPhotos * Math.PI) * phi;
+            
+            const x = radius * Math.cos(theta) * Math.sin(phi);
+            const y = radius * Math.sin(theta) * Math.sin(phi);
+            const z = radius * Math.cos(phi);
+            
+            photo.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+            
+            const placeholder = document.createElement('div');
+            placeholder.className = 'photo-placeholder';
+            
+            // Load images from the photos folder
+            placeholder.innerHTML = `<img src="${photoData[i]}" alt="Love Photo ${i+1}" onerror="this.parentElement.innerHTML='❤️'">`;
+            
+            photo.appendChild(placeholder);
+            sphere.appendChild(photo);
+            
+            // Add click event
+            photo.addEventListener('click', () => {
+                photo.style.transform = `translate3d(${x}px, ${y}px, ${z}px) scale(1.6)`;
+                setTimeout(() => {
+                    photo.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+                }, 1200);
+            });
+        }
+
+        // Create floating hearts with variety
+        const heartsContainer = document.getElementById('heartsContainer');
+        const heartEmojis = ['💖', '💕', '💗', '💝', '💘', '💞', '❤️'];
+        
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 20 + 's';
+            heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
+            heartsContainer.appendChild(heart);
+        }
+
+        // Create floating particles
+        const particlesContainer = document.getElementById('particlesContainer');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.width = (Math.random() * 8 + 4) + 'px';
+            particle.style.height = particle.style.width;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Smooth mouse tracking for sphere
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) - 0.5;
+            mouseY = (e.clientY / window.innerHeight) - 0.5;
+        });
+
+        function animateSphere() {
+            currentX += (mouseX - currentX) * 0.05;
+            currentY += (mouseY - currentY) * 0.05;
+            
+            sphere.style.transform = `rotateY(${currentX * 40}deg) rotateX(${-currentY * 40}deg)`;
+            requestAnimationFrame(animateSphere);
+        }
+
+        animateSphere();
+    </script>
+</body>
+</html>
